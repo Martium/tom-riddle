@@ -10,6 +10,12 @@ namespace Guess_game
 {
     class Program
     {
+        private static Dictionary<string, string> Riddles = new Dictionary<string, string>
+        {
+            {"zalia zole bet ne zole su uodega bet ne pele?" , "agurkas"},
+            { "be ranku be koju duris atidaro?", "vejas"},
+            { "I pakalne letai i kalna greitai?", "snarglys"}
+        };
 
         static void Main(string[] args)
         {
@@ -24,62 +30,6 @@ namespace Guess_game
 
         }
 
-        private static void AnswerMessage(bool correct)
-        {
-            Console.WriteLine(correct ? "Nice you get it " : "You did not get it ");
-
-            Console.Write("Press Enter to continue ");
-            Console.ReadLine();
-        }
-
-        private static Dictionary<string, string> Riddles = new Dictionary<string, string>
-        {
-            {"zalia zole bet ne zole su uodega bet ne pele?" , "agurkas"},
-            { "be ranku be koju duris atidaro?", "vejas"},
-            { "I pakalne letai i kalna greitai?", "snarglys"}
-        };
-        static int StartGame()
-        {
-            int progress = 0;
-            int guessLimit = 3;
-            string begin = "";
-
-            while (begin == "")
-            {
-                foreach (KeyValuePair<string, string> Riddle in Riddles)
-                {
-                    int guessCount = 0;
-                    Console.WriteLine(Riddle.Key);
-
-                    while (guessCount < guessLimit)
-                    {
-                        Console.Write("Enter your guess ");
-                       string guess = Console.ReadLine();
-
-                        if (guess == Riddle.Value)
-                        {
-                            AnswerMessage(correct: true);
-                            progress += guessLimit - guessCount;
-                            break;
-                        }
-
-                        if (guessCount == guessLimit - 1 & guess != Riddle.Value)
-                        {
-                            AnswerMessage(correct: false);
-                            break;
-                        }
-
-                        guessCount++;
-
-                    }
-                }
-
-                break;
-
-            }
-            return progress;
-        }
-
         static void StartIntro()
         {
             Console.WriteLine("Welcome to riddle game you will have 3 riddles");
@@ -92,6 +42,48 @@ namespace Guess_game
             Console.Write("Press Enter to begin ");
             Console.ReadLine();
         }
-    }
+        
+        static int StartGame()
+        {
+            int progress = 0;
+            int guessLimit = 3;
 
+                foreach (KeyValuePair<string, string> riddle in Riddles)
+                {
+                    int guessCount = 0;
+                    Console.WriteLine(riddle.Key);
+
+                    while (guessCount < guessLimit)
+                    {
+                        Console.Write("Enter your guess ");
+                       string guess = Console.ReadLine();
+
+                        if (guess == riddle.Value)
+                        {
+                            GiveAnswer(correct: true);
+                            progress += guessLimit - guessCount;
+                            break;
+                        }
+
+                        if (guessCount == guessLimit - 1 & guess != riddle.Value)
+                        {
+                            GiveAnswer(correct: false);
+                            break;
+                        }
+
+                        guessCount++;
+                    }
+                }
+
+            return progress;
+        }
+
+        private static void GiveAnswer(bool correct)
+        {
+            Console.WriteLine(correct ? "Nice you get it " : "You did not get it ");
+
+            Console.Write("Press Enter to continue ");
+            Console.ReadLine();
+        }
+    }
 }
