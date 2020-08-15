@@ -10,7 +10,15 @@ namespace Guess_game
 {
     class Program
     {
-        
+        private static void AnswerMessage(bool correct)
+        {
+            Console.WriteLine(correct ? "Nice you get it " : "You did not get it ");
+
+            Console.Write("Press Enter to continue ");
+            Console.ReadLine();
+        }
+
+
         private static Dictionary<string, string> Riddles = new Dictionary<string, string>
         {
             {"zalia zole bet ne zole su uodega bet ne pele?" , "agurkas"},
@@ -24,76 +32,47 @@ namespace Guess_game
 
             Intruduction();
 
-            Result = Result + RiddleGame(0);
+            Result += RiddleGame(0);
 
             Console.WriteLine("your score is " + Result);
             Console.WriteLine("Thanks for playing press enter to shut down program");
             Console.ReadLine();
 
-            /*Programa sumazinau kaip imanoma labiau  kolkas nedadejau funkcijos pakartojimo nes manau ja veliau reikes idet programa suskaiciuoja rezultata.  Kolkas dar nesugalvojau kaip 
-             padaryt kad programa  parasytu kokias misles zaidejas imine. Sumastau tik labai sudetinga varianta todel jis nebus naudingas kai bus 20 misliu ar 100 :D manau dabar reikia dadet
-             misliu  kokias 5 ir kad random jas mestu ka manai? aisku net neisivaizduoju kaip tai padaryt :D */ 
+            /* Pataisiau koda metode riddle game nepriskyriau int _maxAllowedGuessCount nes kodas nedidelis ir jo uzduotis yra tik skaiciuot iki 3 tai rasiau skaiciais bet kaip sakei suprantu
+             * kodel tu taip padarei jei kazka sugalvosim perasysiu  nukopijavau tavo bool voida nes stackoverflow neradau paprastesnio o radau grynai kaip tu padarei o kaip sugalvojau butu buve
+             * du nauji metodai  todel pamaniau kam to reikia vienas false kitas true */
 
         }
         static int RiddleGame(int Progress)
         {
-            int GuessCount = 0;
-            int First = 0;
-            string guess = "";
             string begin = "y";
 
             while (begin == "y")
             {
-                foreach (var Riddle in Riddles)
+                foreach (KeyValuePair<string, string> Riddle in Riddles)
                 {
+                    int GuessCount = 0;
                     Console.WriteLine(Riddle.Key);
-                    Console.Write("Enter your guess ");
-                    guess = Console.ReadLine();
-                    GuessCount++;
 
-                    while (guess != Riddle.Value)
+                    while (GuessCount < 3)
                     {
                         Console.Write("Enter your guess ");
-                        guess = Console.ReadLine();
-                        GuessCount++;
+                       string guess = Console.ReadLine();
 
-                        if (GuessCount == 3 && guess == Riddle.Value)
+                        if (guess == Riddle.Value)
                         {
-                            Console.WriteLine("Nice you get it ");
-                            First = First + 1;
-                            Console.Write("Press Enter to continue ");
-                            Console.ReadLine();
-                            GuessCount = GuessCount - 3;
-                            break;
-
-                        }else if (GuessCount == 2 && guess == Riddle.Value)
-                        {
-                            Console.WriteLine("Nice you get it  ");
-                            First = First + 2;
-                            Console.Write("Press Enter to continue ");
-                            Console.ReadLine();
-                            GuessCount = GuessCount - 2;
-                            break;
-
-                        }else if (GuessCount == 1 && guess == Riddle.Value)
-                        {
-                            Console.WriteLine("Nice you get it ");
-                            First = First + 3;
-                            Console.Write("Press Enter to continue ");
-                            Console.ReadLine();
-                            GuessCount--;
-                            break;
-
-                        }else if (GuessCount == 3 && guess != Riddle.Value)
-                        {
-                            Console.WriteLine("You did not get it ");
-                            First = First + 0;
-                            Console.Write("Press Enter to continue ");
-                            Console.ReadLine();
-                            GuessCount = GuessCount - 3;
+                            AnswerMessage(correct: true);
+                            Progress += 3 - GuessCount;
                             break;
                         }
 
+                        if (GuessCount == 2 & guess != Riddle.Value)
+                        {
+                            AnswerMessage(correct: false);
+                            break;
+                        }
+
+                        GuessCount++;
 
                     }
                 }
@@ -101,7 +80,6 @@ namespace Guess_game
                 break;
 
             }
-            Progress = Progress + First;
             return Progress;
         }
 
