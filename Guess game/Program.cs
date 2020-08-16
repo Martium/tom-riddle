@@ -67,24 +67,18 @@ namespace Guess_game
 
                         if (guess == riddle.Value)
                         {
-                            Console.ForegroundColor = ConsoleColor.DarkGreen;
-                            GiveAnswer(correct: true);
-                            Console.ResetColor();
+                            GiveAnswer(correct: true, lastAttempt: false);
                             progress += guessLimit - guessCount;
                             break;
                         }
 
                         if (guessCount == guessLimit - 1 & guess != riddle.Value)
                         {
-                            Console.ForegroundColor = ConsoleColor.DarkRed;
-                            GiveAnswer(correct: false);
-                            Console.ResetColor();
+                            GiveAnswer(correct: false, lastAttempt: true);
                             break;
                         }
 
-                        Console.ForegroundColor = ConsoleColor.DarkYellow;
-                        Console.WriteLine("Neteisingai.Bandykite dar kart!");
-                        Console.ResetColor();
+                        GiveAnswer(correct: false, lastAttempt: false);
                         guessCount++;
                     }
                 }
@@ -92,9 +86,29 @@ namespace Guess_game
             return progress;
         }
 
-        private static void GiveAnswer(bool correct)
+        private static void GiveAnswer(bool correct, bool lastAttempt)
         {
-            Console.WriteLine(correct ? "Teisingai!" : "Neteisingai. Visi spėjimai išnaudoti!");
+            if (correct == true && lastAttempt == false)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                Console.WriteLine("Teisingai");
+                Console.ResetColor();
+
+            }
+            else if (correct == false && lastAttempt == false)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.WriteLine("Neteisingai. Bandykite dar kart!");
+                Console.ResetColor();
+
+            }
+            else if (correct == false && lastAttempt == true)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("Neteisingai. Visi spėjimai išnaudoti!");
+                Console.ResetColor();
+
+            }
 
         }
     }
