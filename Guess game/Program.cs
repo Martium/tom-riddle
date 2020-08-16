@@ -27,9 +27,9 @@ namespace Guess_game
             int result = StartGame();
 
             Console.WriteLine("------------------------------------------------------------------------------");
-            Console.WriteLine("");
-            Console.WriteLine("Mįslės išspręstos. Surinkti taškai: " + result + " / 9");
-            Console.WriteLine("");
+            Console.WriteLine();
+            Console.WriteLine($"Mįslės išspręstos. Surinkti taškai: {result} / 9");
+            Console.WriteLine();
             Console.WriteLine("Dėkui, kad žaidėte! Spauskite ENTER klavišą, kad išjungti žaidimą:");
             Console.ReadLine();
         }
@@ -37,13 +37,13 @@ namespace Guess_game
         static void StartIntro()
         {
             Console.WriteLine("Sveiki atvykę į mįslių žaidimą!");
-            Console.WriteLine("");
+            Console.WriteLine();
             Console.WriteLine("TAISYKLĖS:");
             Console.WriteLine("* jūs turėsite įminti 3 mįsles");
             Console.WriteLine("* kiekvienai mįslei įminti turėsite 3 bandymus");
             Console.WriteLine("* kiekviena mįslė yra verta 3 taškų");
             Console.WriteLine("* kiekvienas neteisingas spėjimas kainuos vieną tašką");
-            Console.WriteLine("");
+            Console.WriteLine();
             Console.WriteLine("Sėkmės! Spauskite ENTER klavišą, kad pradėti žaidimą:");
             Console.ReadLine();
         }
@@ -61,7 +61,7 @@ namespace Guess_game
 
                     while (guessCount < guessLimit)
                     {
-                       Console.WriteLine("");
+                       Console.WriteLine();
                        Console.Write("Įveskite savo spėjimą: ");
                        string guess = Console.ReadLine();
 
