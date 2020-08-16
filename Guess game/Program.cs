@@ -26,6 +26,8 @@ namespace Guess_game
 
             int result = StartGame();
 
+            Console.WriteLine("------------------------------------------------------------------------------");
+            Console.WriteLine("");
             Console.WriteLine("Mįslės išspręstos. Surinkti taškai: " + result + " / 9");
             Console.WriteLine("");
             Console.WriteLine("Dėkui, kad žaidėte! Spauskite ENTER klavišą, kad išjungti žaidimą:");
@@ -59,9 +61,9 @@ namespace Guess_game
 
                     while (guessCount < guessLimit)
                     {
+                       Console.WriteLine("");
                        Console.Write("Įveskite savo spėjimą: ");
                        string guess = Console.ReadLine();
-                       Console.WriteLine("");
 
                         if (guess == riddle.Value)
                         {
@@ -83,7 +85,6 @@ namespace Guess_game
                         Console.ForegroundColor = ConsoleColor.DarkYellow;
                         Console.WriteLine("Neteisingai.Bandykite dar kart!");
                         Console.ResetColor();
-                        Console.WriteLine("");
                         guessCount++;
                     }
                 }
