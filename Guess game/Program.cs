@@ -12,10 +12,9 @@ namespace Guess_game
             { "Į pakalnę lėtai, į kalną greitai?", "snarglys"}
         };
 
-        private static int RiddlesPass = Riddles.Count;
+        private static int SingleGuessPoints = 1;
         private static int GuessLimit = 3;
-        private static int MaxRiddlePoints = 3;
-        private static int MaxResult = RiddlesPass * MaxRiddlePoints;
+        private static int MaxResult = Riddles.Count * SingleGuessPoints * GuessLimit;
 
         static void Main(string[] args)
         {
@@ -38,10 +37,10 @@ namespace Guess_game
             Console.WriteLine("Sveiki atvykę į mįslių žaidimą!");
             Console.WriteLine();
             Console.WriteLine("TAISYKLĖS:");
-            Console.WriteLine($"* jūs turėsite įminti {RiddlesPass} mįsles");
+            Console.WriteLine($"* jūs turėsite įminti {Riddles.Count} mįsles");
             Console.WriteLine($"* kiekvienai mįslei įminti turėsite {GuessLimit} bandymus");
-            Console.WriteLine($"* kiekviena mįslė yra verta {MaxRiddlePoints} taškų");
-            Console.WriteLine("* kiekvienas neteisingas spėjimas kainuos vieną tašką");
+            Console.WriteLine($"* kiekviena mįslė yra verta {GuessLimit * SingleGuessPoints} taškų");
+            Console.WriteLine($"* kiekvienas neteisingas spėjimas kainuos {SingleGuessPoints} tašką"); 
             Console.WriteLine();
             Console.WriteLine("Sėkmės! Spauskite ENTER klavišą, kad pradėti žaidimą:");
             Console.ReadLine();
@@ -66,7 +65,7 @@ namespace Guess_game
                     if (guess == riddle.Value)
                     {
                         GiveAnswer(correct: true);
-                        progress += GuessLimit - guessCount;
+                        progress += GuessLimit * SingleGuessPoints - guessCount; 
                         break;
                     }
 
@@ -88,25 +87,9 @@ namespace Guess_game
         {
             if (correct)
             {
-                GiveAnswerColor(rightAnswerColor: true);
+                WriteColoredMessage("Teisingai!", ConsoleColor.DarkGreen);
             }
             else if (!lastAttempt)
-            {
-                GiveAnswerColor(rightAnswerColor: false);
-            }
-            else
-            {
-                GiveAnswerColor(rightAnswerColor: false, wrongAnswerColor: true);
-            }
-        }
-
-        private static void GiveAnswerColor(bool rightAnswerColor, bool wrongAnswerColor = false)
-        {
-            if (rightAnswerColor)
-            {
-                WriteColoredMessage("Teisingai", ConsoleColor.DarkGreen);
-            }
-            else if (!wrongAnswerColor)
             {
                 WriteColoredMessage("Neteisingai. Bandykite dar kart!", ConsoleColor.DarkYellow);
             }
