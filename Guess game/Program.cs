@@ -26,7 +26,8 @@ namespace Guess_game
 
             Console.WriteLine("------------------------------------------------------------------------------");
             Console.WriteLine();
-            Console.WriteLine($"Mįslės išspręstos. Surinkti taškai: {playerResult} / {MaxResult}");
+            int maxResult = Riddles.Count * SingleGuessPoints * GuessLimit;
+            Console.WriteLine($"Mįslės išspręstos. Surinkti taškai: {playerResult} / {maxResult}");
             Console.WriteLine();
             Console.WriteLine("Dėkui, kad žaidėte! Spauskite ENTER klavišą, kad išjungti žaidimą:");
             Console.ReadLine();
