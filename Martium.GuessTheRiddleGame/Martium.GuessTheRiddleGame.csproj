@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{9638802E-3864-4F23-A9A6-B83688B7058C}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Guess_game</RootNamespace>
-    <AssemblyName>Guess game</AssemblyName>
+    <RootNamespace>Martium.GuessTheRiddleGame</RootNamespace>
+    <AssemblyName>Martium.GuessTheRiddleGame</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -31,6 +31,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Martium.GuessTheRiddleGame.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
