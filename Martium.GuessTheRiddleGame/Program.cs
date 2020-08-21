@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Guess_game
+namespace Martium.GuessTheRiddleGame
 {
-    class Program
+    internal class Program
     {
         private static Dictionary<string, string> Riddles = new Dictionary<string, string>
         {
-            {"Žalia žole, bet ne žole su uodega, bet ne pelė?" , "agurkas"},
-            { "Be rankų, be kojų duris atidaro?", "vejas"},
-            { "Į pakalnę lėtai, į kalną greitai?", "snarglys"}
+            { "Žalia žole, bet ne žole su uodega, bet ne pelė?" , "agurkas" },
+            { "Be rankų, be kojų duris atidaro?", "vejas" },
+            { "Į pakalnę lėtai, į kalną greitai?", "snarglys" }
         };
 
         private static int SingleGuessPoints = 1;
         private static int GuessLimit = 3;
-        private static int MaxResult = Riddles.Count * SingleGuessPoints * GuessLimit;
 
         static void Main(string[] args)
         {
