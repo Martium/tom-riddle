@@ -14,7 +14,6 @@ namespace Guess_game
 
         private static int SingleGuessPoints = 1;
         private static int GuessLimit = 3;
-        private static int MaxResult = Riddles.Count * SingleGuessPoints * GuessLimit;
 
         static void Main(string[] args)
         {
