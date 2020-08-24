@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Martium.GuessTheRiddleGame
 {
@@ -9,7 +10,14 @@ namespace Martium.GuessTheRiddleGame
         {
             { "Žalia žole, bet ne žole su uodega, bet ne pelė?" , "agurkas" },
             { "Be rankų, be kojų duris atidaro?", "vejas" },
-            { "Į pakalnę lėtai, į kalną greitai?", "snarglys" }
+            { "Į pakalnę lėtai, į kalną greitai?", "snarglys" },
+            { "Nei gimsta, nei auga, nei miršta, o yra?" , "akmuo" },
+            { "Nors mus supa ir spaudžia, bet jo nematom?" , "oras" },
+            { "Rudenį gimsta, pavasarį miršta?" , "sniegas" },
+            { "Šimtais skaito, tūkstančiais skaito ir niekaip nesuskaito?" , "zvaigzdes" },
+            { "Skaisti graži mergužėlė mėlynoj pievoj vaikštinėja?" , "saule" },
+            { "Mažas vyrukas, aštrus kirvukas?" , "bite" },
+            { "Mažas žirgelis dideliais žingsniais bėga?" , "ziogas" }
         };
 
         private static int SingleGuessPoints = 1;
@@ -37,7 +45,7 @@ namespace Martium.GuessTheRiddleGame
             Console.WriteLine("Sveiki atvykę į mįslių žaidimą!");
             Console.WriteLine();
             Console.WriteLine("TAISYKLĖS:");
-            Console.WriteLine($"* jūs turėsite įminti {Riddles.Count} mįsles");
+            Console.WriteLine($"* jūs turėsite įminti {Riddles.Count} mįslių");
             Console.WriteLine($"* kiekvienai mįslei įminti turėsite {GuessLimit} bandymus");
             Console.WriteLine($"* kiekviena mįslė yra verta {GuessLimit * SingleGuessPoints} taškų");
             Console.WriteLine($"* kiekvienas neteisingas spėjimas kainuos {SingleGuessPoints} tašką"); 
@@ -49,6 +57,7 @@ namespace Martium.GuessTheRiddleGame
         static int StartGame()
         {
             int progress = 0;
+            ShuffleRiddles();
 
             foreach (KeyValuePair<string, string> riddle in Riddles)
             {
@@ -81,6 +90,13 @@ namespace Martium.GuessTheRiddleGame
             }
 
             return progress;
+        }
+
+        private static void ShuffleRiddles()
+        {
+            Random random = new Random();
+            Riddles = Riddles.OrderBy(x => random.Next())
+              .ToDictionary(item => item.Key, item => item.Value);
         }
 
         private static void GiveAnswer(bool correct, bool lastAttempt = false)
