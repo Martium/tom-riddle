@@ -57,7 +57,7 @@ namespace Martium.GuessTheRiddleGame
         static int StartGame()
         {
             int progress = 0;
-            ShuffleDictionary();
+            ShuffleRiddles();
 
             foreach (KeyValuePair<string, string> riddle in Riddles)
             {
@@ -92,10 +92,10 @@ namespace Martium.GuessTheRiddleGame
             return progress;
         }
 
-        private static void ShuffleDictionary()
+        private static void ShuffleRiddles()
         {
-            Random shuffle = new Random();
-            Riddles = Riddles.OrderBy(x => shuffle.Next())
+            Random random = new Random();
+            Riddles = Riddles.OrderBy(x => random.Next())
               .ToDictionary(item => item.Key, item => item.Value);
         }
 
