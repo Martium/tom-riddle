@@ -26,16 +26,38 @@ namespace Martium.GuessTheRiddleGame
         static void Main(string[] args)
         {
             Console.OutputEncoding = System.Text.Encoding.Unicode;
+            Dictionary<string, int> playerResult = new Dictionary<string, int> { };
 
             StartIntro();
 
-            int playerResult = StartGame();
+            playerResult = StartGame();
 
             Console.WriteLine("------------------------------------------------------------------------------");
             Console.WriteLine();
             int maxResult = Riddles.Count * SingleGuessPoints * GuessLimit;
-            Console.WriteLine($"Mįslės išspręstos. Surinkti taškai: {playerResult} / {maxResult}");
-            Console.WriteLine();
+            int maxPlayerResult = 0;
+            foreach (var playerSum in playerResult)
+            {
+                maxPlayerResult += playerSum.Value;
+            }
+            int playerMaxResult = playerResult.Count;
+            Console.WriteLine($"Mįslės išspręstos. Surinkti taškai: {maxPlayerResult} / {maxResult}");
+            Console.WriteLine("Taškų paskirstymas: ");
+            foreach(KeyValuePair<string,int> playerResults in playerResult)
+            {
+                if (playerResults.Value == GuessLimit)
+                {
+                    WriteColoredMessage($" { playerResults.Key} -> {playerResults.Value}", ConsoleColor.DarkGreen);
+
+                }else if (playerResults.Value == 0)
+                {
+                    WriteColoredMessage($" { playerResults.Key} -> {playerResults.Value}", ConsoleColor.DarkRed);
+
+                }else
+                {
+                    WriteColoredMessage($" { playerResults.Key} -> {playerResults.Value}", ConsoleColor.DarkYellow);
+                }
+            }
             Console.WriteLine("Dėkui, kad žaidėte! Spauskite ENTER klavišą, kad išjungti žaidimą:");
             Console.ReadLine();
         }
@@ -54,8 +76,9 @@ namespace Martium.GuessTheRiddleGame
             Console.ReadLine();
         }
 
-        static int StartGame()
+        static Dictionary<string, int> StartGame()
         {
+            Dictionary<string, int> playerProgress = new Dictionary<string, int> { };
             int progress = 0;
             ShuffleRiddles();
 
@@ -74,13 +97,17 @@ namespace Martium.GuessTheRiddleGame
                     if (guess == riddle.Value)
                     {
                         GiveAnswer(correct: true);
-                        progress += GuessLimit * SingleGuessPoints - guessCount; 
+                        progress += GuessLimit * SingleGuessPoints - guessCount;
+                        playerProgress.Add(riddle.Key, progress);
+                        progress = 0;
                         break;
                     }
 
                     if (guessCount == GuessLimit - 1 & guess != riddle.Value)
                     {
                         GiveAnswer(correct: false, lastAttempt: true);
+                        playerProgress.Add(riddle.Key, 0);
+                        progress = 0;
                         break;
                     }
 
@@ -89,7 +116,7 @@ namespace Martium.GuessTheRiddleGame
                 }
             }
 
-            return progress;
+            return playerProgress;
         }
 
         private static void ShuffleRiddles()
