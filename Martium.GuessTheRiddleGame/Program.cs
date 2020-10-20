@@ -36,13 +36,17 @@ namespace Martium.GuessTheRiddleGame
             Console.WriteLine();
             int maxResult = Riddles.Count * SingleGuessPoints * GuessLimit;
             int maxPlayerResult = 0;
+
             foreach (var playerSum in playerResult)
             {
                 maxPlayerResult += playerSum.Value;
             }
+
             int playerMaxResult = playerResult.Count;
+
             Console.WriteLine($"Mįslės išspręstos. Surinkti taškai: {maxPlayerResult} / {maxResult}");
             Console.WriteLine("Taškų paskirstymas: ");
+
             foreach(KeyValuePair<string,int> playerResults in playerResult)
             {
                 if (playerResults.Value == GuessLimit)
@@ -58,6 +62,7 @@ namespace Martium.GuessTheRiddleGame
                     WriteColoredMessage($" { playerResults.Key} -> {playerResults.Value}", ConsoleColor.DarkYellow);
                 }
             }
+
             Console.WriteLine("Dėkui, kad žaidėte! Spauskite ENTER klavišą, kad išjungti žaidimą:");
             Console.ReadLine();
         }
