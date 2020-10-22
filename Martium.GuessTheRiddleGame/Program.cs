@@ -71,7 +71,8 @@ namespace Martium.GuessTheRiddleGame
                     if (guess == riddle.Value)
                     {
                         GiveAnswer(correct: true);
-                        playerProgress.Add(riddle.Key, GuessLimit * SingleGuessPoints - guessCount);
+                        int collectedRiddlePoints = GuessLimit * SingleGuessPoints - guessCount;
+                        playerProgress.Add(riddle.Key, collectedRiddlePoints);
                         break;
                     }
 
