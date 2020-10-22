@@ -32,6 +32,9 @@ namespace Martium.GuessTheRiddleGame
             Dictionary<string,int> playerResult = StartGame();
 
             ShowPlayerResult(playerResult);
+
+            EndGame();
+
         }
 
         static void StartIntro()
@@ -146,11 +149,13 @@ namespace Martium.GuessTheRiddleGame
                     WriteColoredMessage($" { playerResults.Key} -> {playerResults.Value}", ConsoleColor.DarkYellow);
                 }
             }
+        }
 
+        private static void EndGame()
+        {
             Console.WriteLine();
             Console.WriteLine("Dėkui, kad žaidėte! Spauskite ENTER klavišą, kad išjungti žaidimą:");
             Console.ReadLine();
         }
-        
     }
 }
