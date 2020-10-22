@@ -29,15 +29,11 @@ namespace Martium.GuessTheRiddleGame
 
             StartIntro();
 
-            int playerResult = StartGame();
+            Dictionary<string,int> playerResult = StartGame();
 
-            Console.WriteLine("------------------------------------------------------------------------------");
-            Console.WriteLine();
-            int maxResult = Riddles.Count * SingleGuessPoints * GuessLimit;
-            Console.WriteLine($"Mįslės išspręstos. Surinkti taškai: {playerResult} / {maxResult}");
-            Console.WriteLine();
-            Console.WriteLine("Dėkui, kad žaidėte! Spauskite ENTER klavišą, kad išjungti žaidimą:");
-            Console.ReadLine();
+            ShowPlayerResult(playerResult);
+
+            EndGame();
         }
 
         static void StartIntro()
@@ -54,9 +50,9 @@ namespace Martium.GuessTheRiddleGame
             Console.ReadLine();
         }
 
-        static int StartGame()
+        static Dictionary<string, int> StartGame()
         {
-            int progress = 0;
+            Dictionary<string, int> playerResult = new Dictionary<string, int> { };
             ShuffleRiddles();
 
             foreach (KeyValuePair<string, string> riddle in Riddles)
@@ -74,13 +70,15 @@ namespace Martium.GuessTheRiddleGame
                     if (guess == riddle.Value)
                     {
                         GiveAnswer(correct: true);
-                        progress += GuessLimit * SingleGuessPoints - guessCount; 
+                        int collectedRiddlePoints = GuessLimit * SingleGuessPoints - guessCount;
+                        playerResult.Add(riddle.Key, collectedRiddlePoints);
                         break;
                     }
 
                     if (guessCount == GuessLimit - 1 & guess != riddle.Value)
                     {
                         GiveAnswer(correct: false, lastAttempt: true);
+                        playerResult.Add(riddle.Key, 0);
                         break;
                     }
 
@@ -89,7 +87,7 @@ namespace Martium.GuessTheRiddleGame
                 }
             }
 
-            return progress;
+            return playerResult;
         }
 
         private static void ShuffleRiddles()
@@ -120,6 +118,46 @@ namespace Martium.GuessTheRiddleGame
             Console.ForegroundColor = color;
             Console.WriteLine(message);
             Console.ResetColor();
+        }
+
+        private static void ShowPlayerResult(Dictionary<string, int> playerResult)
+        {
+            Console.WriteLine("------------------------------------------------------------------------------");
+            Console.WriteLine();
+
+            int collectedPlayerPoints = playerResult.Sum(playerAnswer => playerAnswer.Value);
+            int maximumPoints = Riddles.Count * SingleGuessPoints * GuessLimit;
+
+            Console.WriteLine($"Mįslės išspręstos. Surinkti taškai: {collectedPlayerPoints} / {maximumPoints}");
+            Console.WriteLine("Taškų paskirstymas: ");
+            Console.WriteLine();
+
+            foreach (KeyValuePair<string, int> playerResults in playerResult)
+            {
+                ConsoleColor color;
+
+                if (playerResults.Value == GuessLimit)
+                {
+                     color = ConsoleColor.DarkGreen;
+                }
+                else if (playerResults.Value == 0)
+                {
+                     color = ConsoleColor.DarkRed;
+                }
+                else
+                {
+                     color = ConsoleColor.DarkYellow;
+                }
+
+                WriteColoredMessage($" { playerResults.Key} -> {playerResults.Value}", color);
+            }
+        }
+
+        private static void EndGame()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Dėkui, kad žaidėte! Spauskite ENTER klavišą, kad išjungti žaidimą:");
+            Console.ReadLine();
         }
     }
 }
