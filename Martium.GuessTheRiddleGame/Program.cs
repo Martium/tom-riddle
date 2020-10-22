@@ -34,7 +34,6 @@ namespace Martium.GuessTheRiddleGame
             ShowPlayerResult(playerResult);
 
             EndGame();
-
         }
 
         static void StartIntro()
@@ -135,20 +134,22 @@ namespace Martium.GuessTheRiddleGame
 
             foreach (KeyValuePair<string, int> playerResults in playerResult)
             {
+                var color = ConsoleColor.White;
+
                 if (playerResults.Value == GuessLimit)
                 {
-                    WriteColoredMessage($" { playerResults.Key} -> {playerResults.Value}", ConsoleColor.DarkGreen);
-
+                     color = ConsoleColor.DarkGreen;
                 }
                 else if (playerResults.Value == 0)
                 {
-                    WriteColoredMessage($" { playerResults.Key} -> {playerResults.Value}", ConsoleColor.DarkRed);
-
+                     color = ConsoleColor.DarkRed;
                 }
                 else
                 {
-                    WriteColoredMessage($" { playerResults.Key} -> {playerResults.Value}", ConsoleColor.DarkYellow);
+                     color = ConsoleColor.DarkYellow;
                 }
+
+                WriteColoredMessage($" { playerResults.Key} -> {playerResults.Value}", color);
             }
         }
 
