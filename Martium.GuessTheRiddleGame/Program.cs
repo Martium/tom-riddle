@@ -32,7 +32,6 @@ namespace Martium.GuessTheRiddleGame
             Dictionary<string,int> playerResult = StartGame();
 
             ShowPlayerResult(playerResult);
-            
         }
 
         static void StartIntro()
@@ -52,7 +51,6 @@ namespace Martium.GuessTheRiddleGame
         static Dictionary<string, int> StartGame()
         {
             Dictionary<string, int> playerProgress = new Dictionary<string, int> { };
-            int progress = 0;
             ShuffleRiddles();
 
             foreach (KeyValuePair<string, string> riddle in Riddles)
@@ -70,9 +68,7 @@ namespace Martium.GuessTheRiddleGame
                     if (guess == riddle.Value)
                     {
                         GiveAnswer(correct: true);
-                        progress += GuessLimit * SingleGuessPoints - guessCount;
-                        playerProgress.Add(riddle.Key, progress);
-                        progress = 0;
+                        playerProgress.Add(riddle.Key, GuessLimit * SingleGuessPoints - guessCount);
                         break;
                     }
 
@@ -80,7 +76,6 @@ namespace Martium.GuessTheRiddleGame
                     {
                         GiveAnswer(correct: false, lastAttempt: true);
                         playerProgress.Add(riddle.Key, 0);
-                        progress = 0;
                         break;
                     }
 
@@ -124,12 +119,13 @@ namespace Martium.GuessTheRiddleGame
 
         private static void ShowPlayerResult(Dictionary<string, int> playerResult)
         {
-
-            var maxPlayerResult = playerResult.Sum(playerAnswer => playerAnswer.Value);
-
             Console.WriteLine("------------------------------------------------------------------------------");
             Console.WriteLine();
-            Console.WriteLine($"Mįslės išspręstos. Surinkti taškai: {maxPlayerResult} / {Riddles.Count * SingleGuessPoints * GuessLimit}");
+
+            int collectedPlayerPoints = playerResult.Sum(playerAnswer => playerAnswer.Value);
+            int maximumPoints = Riddles.Count * SingleGuessPoints * GuessLimit;
+
+            Console.WriteLine($"Mįslės išspręstos. Surinkti taškai: {collectedPlayerPoints} / {maximumPoints}");
             Console.WriteLine("Taškų paskirstymas: ");
             Console.WriteLine();
 
@@ -151,6 +147,7 @@ namespace Martium.GuessTheRiddleGame
                 }
             }
 
+            Console.WriteLine();
             Console.WriteLine("Dėkui, kad žaidėte! Spauskite ENTER klavišą, kad išjungti žaidimą:");
             Console.ReadLine();
         }
