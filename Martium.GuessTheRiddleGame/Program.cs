@@ -52,7 +52,7 @@ namespace Martium.GuessTheRiddleGame
 
         static Dictionary<string, int> StartGame()
         {
-            Dictionary<string, int> playerProgress = new Dictionary<string, int> { };
+            Dictionary<string, int> playerResult = new Dictionary<string, int> { };
             ShuffleRiddles();
 
             foreach (KeyValuePair<string, string> riddle in Riddles)
@@ -71,14 +71,14 @@ namespace Martium.GuessTheRiddleGame
                     {
                         GiveAnswer(correct: true);
                         int collectedRiddlePoints = GuessLimit * SingleGuessPoints - guessCount;
-                        playerProgress.Add(riddle.Key, collectedRiddlePoints);
+                        playerResult.Add(riddle.Key, collectedRiddlePoints);
                         break;
                     }
 
                     if (guessCount == GuessLimit - 1 & guess != riddle.Value)
                     {
                         GiveAnswer(correct: false, lastAttempt: true);
-                        playerProgress.Add(riddle.Key, 0);
+                        playerResult.Add(riddle.Key, 0);
                         break;
                     }
 
@@ -87,7 +87,7 @@ namespace Martium.GuessTheRiddleGame
                 }
             }
 
-            return playerProgress;
+            return playerResult;
         }
 
         private static void ShuffleRiddles()
@@ -134,7 +134,7 @@ namespace Martium.GuessTheRiddleGame
 
             foreach (KeyValuePair<string, int> playerResults in playerResult)
             {
-                var color = ConsoleColor.White;
+                ConsoleColor color;
 
                 if (playerResults.Value == GuessLimit)
                 {
