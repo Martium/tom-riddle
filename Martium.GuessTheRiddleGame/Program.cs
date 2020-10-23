@@ -30,13 +30,7 @@ namespace Martium.GuessTheRiddleGame
 
             StartIntro();
 
-            ShowGameNumber();
-
-            Dictionary<string,int> playerResult = StartGame();
-
-            ShowPlayerResult(playerResult);
-
-            RepeatGame();
+            StartMainGame();
 
             EndGame();
         }
@@ -157,19 +151,12 @@ namespace Martium.GuessTheRiddleGame
                 WriteColoredMessage($" { playerResults.Key} -> {playerResults.Value}", color);
             }
         }
-        private static void RepeatGame()
+        private static void StartMainGame()
         {
-            SeperateGames();
-
-            AskRepeat();
-
-            string repeatGame = Console.ReadLine();
-            Console.WriteLine();
+            string repeatGame = "y";
 
             while(repeatGame == "y")
             {
-                ++GameNumber;
-
                 ShowGameNumber();
 
                 Dictionary<string, int> playerResult = StartGame();
@@ -179,9 +166,10 @@ namespace Martium.GuessTheRiddleGame
                 SeperateGames();
 
                 AskRepeat();
-                
+
                 string repeatAgainGame = Console.ReadLine();
                 repeatGame = repeatAgainGame;
+                ++GameNumber;
             }
         }
 
