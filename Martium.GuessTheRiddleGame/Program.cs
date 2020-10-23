@@ -22,6 +22,7 @@ namespace Martium.GuessTheRiddleGame
 
         private static int SingleGuessPoints = 1;
         private static int GuessLimit = 3;
+        private static int GameNumber = 1;
 
         static void Main(string[] args)
         {
@@ -29,9 +30,13 @@ namespace Martium.GuessTheRiddleGame
 
             StartIntro();
 
+            ShowGameNumber();
+
             Dictionary<string,int> playerResult = StartGame();
 
             ShowPlayerResult(playerResult);
+
+            RepeatGame();
 
             EndGame();
         }
@@ -151,6 +156,53 @@ namespace Martium.GuessTheRiddleGame
 
                 WriteColoredMessage($" { playerResults.Key} -> {playerResults.Value}", color);
             }
+        }
+        private static void RepeatGame()
+        {
+            SeperateGames();
+
+            AskRepeat();
+
+            string repeatGame = Console.ReadLine();
+            Console.WriteLine();
+
+            while(repeatGame == "y")
+            {
+                ++GameNumber;
+
+                ShowGameNumber();
+
+                Dictionary<string, int> playerResult = StartGame();
+
+                ShowPlayerResult(playerResult);
+
+                SeperateGames();
+
+                AskRepeat();
+                
+                string repeatAgainGame = Console.ReadLine();
+                repeatGame = repeatAgainGame;
+            }
+        }
+
+        private static void ShowGameNumber()
+        {
+            Console.WriteLine();
+            Console.WriteLine($"================================= GAME #{GameNumber} =================================");
+            Console.WriteLine();
+        }
+
+        private static void SeperateGames()
+        {
+            Console.WriteLine();
+            Console.WriteLine("==============================================================================");
+            Console.WriteLine();
+        }
+
+        private static void AskRepeat()
+        {
+            Console.WriteLine("Jei norite pakartoti žaidimą spauskite klavišą 'y' ir paspauskite ENTER");
+            Console.Write("kitu atveju spauskite Enter: ");
         }
 
         private static void EndGame()
