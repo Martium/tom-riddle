@@ -22,7 +22,6 @@ namespace Martium.GuessTheRiddleGame
 
         private static int SingleGuessPoints = 1;
         private static int GuessLimit = 3;
-        private static int GameNumber = 1;
 
         static void Main(string[] args)
         {
@@ -30,7 +29,7 @@ namespace Martium.GuessTheRiddleGame
 
             StartIntro();
 
-            StartMainGame();
+            StartGame();
 
             EndGame();
         }
@@ -49,7 +48,7 @@ namespace Martium.GuessTheRiddleGame
             Console.ReadLine();
         }
 
-        static Dictionary<string, int> StartGame()
+        static Dictionary<string, int> StartRiddle()
         {
             Dictionary<string, int> playerResult = new Dictionary<string, int> { };
             ShuffleRiddles();
@@ -151,32 +150,31 @@ namespace Martium.GuessTheRiddleGame
                 WriteColoredMessage($" { playerResults.Key} -> {playerResults.Value}", color);
             }
         }
-        private static void StartMainGame()
+        private static void StartGame()
         {
+            int gameNumber = 1;
             string repeatGame = "y";
 
             while(repeatGame == "y")
             {
-                ShowGameNumber();
+                ShowGameNumber(gameNumber);
 
-                Dictionary<string, int> playerResult = StartGame();
+                Dictionary<string, int> playerResult = StartRiddle();
 
                 ShowPlayerResult(playerResult);
 
                 SeperateGames();
 
-                AskRepeat();
-
-                string repeatAgainGame = Console.ReadLine();
-                repeatGame = repeatAgainGame;
-                ++GameNumber;
+                repeatGame = AskRepeat();
+               
+                gameNumber++;
             }
         }
 
-        private static void ShowGameNumber()
+        private static void ShowGameNumber(int gameNumber)
         {
             Console.WriteLine();
-            Console.WriteLine($"================================= GAME #{GameNumber} =================================");
+            Console.WriteLine($"================================= GAME #{gameNumber} =================================");
             Console.WriteLine();
         }
 
@@ -187,10 +185,14 @@ namespace Martium.GuessTheRiddleGame
             Console.WriteLine();
         }
 
-        private static void AskRepeat()
+        private static string AskRepeat()
         {
+           
             Console.WriteLine("Jei norite pakartoti žaidimą spauskite klavišą 'y' ir paspauskite ENTER");
             Console.Write("kitu atveju spauskite Enter: ");
+            string repeatAgainGame = Console.ReadLine();
+            return repeatAgainGame;
+
         }
 
         private static void EndGame()
