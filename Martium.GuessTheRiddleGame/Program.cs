@@ -36,12 +36,12 @@ namespace Martium.GuessTheRiddleGame
 
         static void StartIntro()
         {
-            Console.WriteLine("Sveiki atvykę į mįslių žaidimą!");
+            WriteAndSeperateText("Sveiki atvykę į mįslių žaidimą!");
             WriteAndSeperateText("TAISYKLĖS:", addNewLineBeforeText: true);
-            Console.WriteLine($"* jūs turėsite įminti {Riddles.Count} mįslių");
-            Console.WriteLine($"* kiekvienai mįslei įminti turėsite {GuessLimit} bandymus");
-            Console.WriteLine($"* kiekviena mįslė yra verta {GuessLimit * SingleGuessPoints} taškų");
-            Console.WriteLine($"* kiekvienas neteisingas spėjimas kainuos {SingleGuessPoints} tašką");
+            WriteAndSeperateText($"* jūs turėsite įminti {Riddles.Count} mįslių");
+            WriteAndSeperateText($"* kiekvienai mįslei įminti turėsite {GuessLimit} bandymus");
+            WriteAndSeperateText($"* kiekviena mįslė yra verta {GuessLimit * SingleGuessPoints} taškų");
+            WriteAndSeperateText($"* kiekvienas neteisingas spėjimas kainuos {SingleGuessPoints} tašką");
             WriteAndSeperateText("Sėkmės! Spauskite ENTER klavišą, kad pradėti žaidimą:",addNewLineBeforeText: true);
             Console.ReadLine();
         }
@@ -54,7 +54,7 @@ namespace Martium.GuessTheRiddleGame
             foreach (KeyValuePair<string, string> riddle in Riddles)
             {
                 int guessCount = 0;
-                Console.WriteLine("------------------------------------------------------------------------------");
+                WriteAndSeperateText("------------------------------------------------------------------------------");
                 WriteAndSeperateText(riddle.Key,addNewLineBeforeText: true, addNewLineAfterText:true);
 
                 while (guessCount < GuessLimit)
@@ -111,14 +111,13 @@ namespace Martium.GuessTheRiddleGame
         private static void WriteColoredMessage(string message, ConsoleColor color)
         {
             Console.ForegroundColor = color;
-            Console.WriteLine(message);
+            WriteAndSeperateText(message);
             Console.ResetColor();
         }
 
         private static void ShowPlayerResult(Dictionary<string, int> playerResult)
         {
-            Console.WriteLine();
-            Console.WriteLine("==================================================================");
+            WriteAndSeperateText("==================================================================", addNewLineBeforeText:true);
 
             int collectedPlayerPoints = playerResult.Sum(playerAnswer => playerAnswer.Value);
             int maximumPoints = Riddles.Count * SingleGuessPoints * GuessLimit;
