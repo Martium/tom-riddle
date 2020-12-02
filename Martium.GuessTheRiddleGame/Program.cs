@@ -36,13 +36,13 @@ namespace Martium.GuessTheRiddleGame
 
         static void StartIntro()
         {
-            WriteAndSeperateText("Sveiki atvykę į mįslių žaidimą!");
-            WriteAndSeperateText("TAISYKLĖS:", addNewLineBeforeText: true);
-            WriteAndSeperateText($"* jūs turėsite įminti {Riddles.Count} mįslių");
-            WriteAndSeperateText($"* kiekvienai mįslei įminti turėsite {GuessLimit} bandymus");
-            WriteAndSeperateText($"* kiekviena mįslė yra verta {GuessLimit * SingleGuessPoints} taškų");
-            WriteAndSeperateText($"* kiekvienas neteisingas spėjimas kainuos {SingleGuessPoints} tašką");
-            WriteAndSeperateText("Sėkmės! Spauskite ENTER klavišą, kad pradėti žaidimą:",addNewLineBeforeText: true);
+            WriteLine("Sveiki atvykę į mįslių žaidimą!");
+            WriteLine("TAISYKLĖS:", addNewLineBeforeText: true);
+            WriteLine($"* jūs turėsite įminti {Riddles.Count} mįslių");
+            WriteLine($"* kiekvienai mįslei įminti turėsite {GuessLimit} bandymus");
+            WriteLine($"* kiekviena mįslė yra verta {GuessLimit * SingleGuessPoints} taškų");
+            WriteLine($"* kiekvienas neteisingas spėjimas kainuos {SingleGuessPoints} tašką");
+            WriteLine("Sėkmės! Spauskite ENTER klavišą, kad pradėti žaidimą:",addNewLineBeforeText: true);
             Console.ReadLine();
         }
 
@@ -54,8 +54,8 @@ namespace Martium.GuessTheRiddleGame
             foreach (KeyValuePair<string, string> riddle in Riddles)
             {
                 int guessCount = 0;
-                WriteAndSeperateText("------------------------------------------------------------------------------");
-                WriteAndSeperateText(riddle.Key,addNewLineBeforeText: true, addNewLineAfterText:true);
+                WriteLine("------------------------------------------------------------------------------");
+                WriteLine(riddle.Key,addNewLineBeforeText: true, addNewLineAfterText:true);
 
                 while (guessCount < GuessLimit)
                 {
@@ -111,19 +111,19 @@ namespace Martium.GuessTheRiddleGame
         private static void WriteColoredMessage(string message, ConsoleColor color)
         {
             Console.ForegroundColor = color;
-            WriteAndSeperateText(message);
+            WriteLine(message);
             Console.ResetColor();
         }
 
         private static void ShowPlayerResult(Dictionary<string, int> playerResult)
         {
-            WriteAndSeperateText("==================================================================", addNewLineBeforeText:true);
+            WriteLine("==================================================================", addNewLineBeforeText:true);
 
             int collectedPlayerPoints = playerResult.Sum(playerAnswer => playerAnswer.Value);
             int maximumPoints = Riddles.Count * SingleGuessPoints * GuessLimit;
 
-            WriteAndSeperateText($"Mįslės išspręstos. Surinkti taškai: {collectedPlayerPoints} / {maximumPoints}", addNewLineBeforeText: true);
-            WriteAndSeperateText("Taškų paskirstymas: ");
+            WriteLine($"Mįslės išspręstos. Surinkti taškai: {collectedPlayerPoints} / {maximumPoints}", addNewLineBeforeText: true);
+            WriteLine("Taškų paskirstymas: ");
 
             foreach (KeyValuePair<string, int> playerResults in playerResult)
             {
@@ -152,19 +152,19 @@ namespace Martium.GuessTheRiddleGame
 
             while(repeatGame == "y")
             {
-                WriteAndSeperateText($"================================= GAME #{gameNumber} =================================", addNewLineBeforeText:true, addNewLineAfterText:true);
+                WriteLine($"================================= GAME #{gameNumber} =================================", addNewLineBeforeText:true, addNewLineAfterText:true);
 
                 Dictionary<string, int> playerResult = PlayGame();
 
                 ShowPlayerResult(playerResult);
 
-                repeatGame = AskRepeat();
+                repeatGame = ConfirmGameReplay();
                
                 gameNumber++;
             }
         }
 
-        private static void WriteAndSeperateText(string message,bool addNewLineBeforeText = false, bool addNewLineAfterText = false)
+        private static void WriteLine(string message,bool addNewLineBeforeText = false, bool addNewLineAfterText = false)
         {
             if (addNewLineBeforeText)
             {
@@ -179,9 +179,9 @@ namespace Martium.GuessTheRiddleGame
             }
         }
 
-        private static string AskRepeat()
+        private static string ConfirmGameReplay()
         {
-            WriteAndSeperateText("Jei norite pakartoti žaidimą spauskite klavišą 'y' ir paspauskite ENTER", addNewLineBeforeText: true);
+            WriteLine("Jei norite pakartoti žaidimą spauskite klavišą 'y' ir paspauskite ENTER", addNewLineBeforeText: true);
             Console.Write("kitu atveju spauskite Enter: ");
             string repeatAgainGame = Console.ReadLine();
             return repeatAgainGame;
@@ -189,7 +189,7 @@ namespace Martium.GuessTheRiddleGame
 
         private static void EndGame()
         {
-            WriteAndSeperateText("Dėkui, kad žaidėte! Spauskite ENTER klavišą, kad išjungti žaidimą: ",addNewLineBeforeText: true, addNewLineAfterText: true);
+            WriteLine("Dėkui, kad žaidėte! Spauskite ENTER klavišą, kad išjungti žaidimą: ",addNewLineBeforeText: true, addNewLineAfterText: true);
             Console.ReadLine();
         }
     }
