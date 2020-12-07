@@ -171,7 +171,7 @@ namespace Martium.GuessTheRiddleGame
                 Console.WriteLine();
             }
 
-                Console.WriteLine(message);
+            Console.WriteLine(message);
 
             if (addNewLineAfterText)
             {
