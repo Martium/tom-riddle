@@ -60,7 +60,7 @@ namespace Martium.GuessTheRiddleGame
                 while (guessCount < GuessLimit)
                 {
                     Console.Write("Įveskite savo spėjimą: ");
-                    string guess = Console.ReadLine();
+                    string guess = Console.ReadLine().ToLower();
 
                     if (guess == riddle.Value)
                     {
