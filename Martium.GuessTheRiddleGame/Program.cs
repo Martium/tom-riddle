@@ -6,7 +6,7 @@ namespace Martium.GuessTheRiddleGame
 {
     internal class Program
     {
-        private static Dictionary<string, string> Riddles = new Dictionary<string, string>
+        private static Dictionary<string, string> _riddles = new Dictionary<string, string>
         {
             { "Žalia žole, bet ne žole su uodega, bet ne pelė?" , "agurkas" },
             { "Be rankų, be kojų duris atidaro?", "vejas" },
@@ -38,7 +38,7 @@ namespace Martium.GuessTheRiddleGame
         {
             WriteLine("Sveiki atvykę į mįslių žaidimą!");
             WriteLine("TAISYKLĖS:", addNewLineBeforeText: true);
-            WriteLine($"* jūs turėsite įminti {Riddles.Count} mįslių");
+            WriteLine($"* jūs turėsite įminti {_riddles.Count} mįslių");
             WriteLine($"* kiekvienai mįslei įminti turėsite {GuessLimit} bandymus");
             WriteLine($"* kiekviena mįslė yra verta {GuessLimit * SingleGuessPoints} taškų");
             WriteLine($"* kiekvienas neteisingas spėjimas kainuos {SingleGuessPoints} tašką");
@@ -51,7 +51,7 @@ namespace Martium.GuessTheRiddleGame
             Dictionary<string, int> playerResult = new Dictionary<string, int> { };
             ShuffleRiddles();
 
-            foreach (KeyValuePair<string, string> riddle in Riddles)
+            foreach (KeyValuePair<string, string> riddle in _riddles)
             {
                 int guessCount = 0;
                 WriteLine("------------------------------------------------------------------------------");
@@ -59,8 +59,7 @@ namespace Martium.GuessTheRiddleGame
 
                 while (guessCount < GuessLimit)
                 {
-                    Console.Write("Įveskite savo spėjimą: ");
-                    string guess = Console.ReadLine();
+                    string guess = AskPlayerAnswer()?.ToLower();
 
                     if (guess == riddle.Value)
                     {
@@ -88,7 +87,7 @@ namespace Martium.GuessTheRiddleGame
         private static void ShuffleRiddles()
         {
             Random random = new Random();
-            Riddles = Riddles.OrderBy(x => random.Next())
+            _riddles = _riddles.OrderBy(x => random.Next())
               .ToDictionary(item => item.Key, item => item.Value);
         }
 
@@ -120,7 +119,7 @@ namespace Martium.GuessTheRiddleGame
             WriteLine("==================================================================", addNewLineBeforeText:true);
 
             int collectedPlayerPoints = playerResult.Sum(playerAnswer => playerAnswer.Value);
-            int maximumPoints = Riddles.Count * SingleGuessPoints * GuessLimit;
+            int maximumPoints = _riddles.Count * SingleGuessPoints * GuessLimit;
 
             WriteLine($"Mįslės išspręstos. Surinkti taškai: {collectedPlayerPoints} / {maximumPoints}", addNewLineBeforeText: true);
             WriteLine("Taškų paskirstymas: ");
@@ -191,6 +190,44 @@ namespace Martium.GuessTheRiddleGame
         {
             WriteLine("Dėkui, kad žaidėte! Spauskite ENTER klavišą, kad išjungti žaidimą: ",addNewLineBeforeText: true, addNewLineAfterText: true);
             Console.ReadLine();
+        }
+
+        private static string AskPlayerAnswer()
+        {
+            Console.Write("Įveskite savo spėjimą: ");
+            string guess = "";
+
+            do
+            {
+                ConsoleKeyInfo key = Console.ReadKey(true);
+                if (key.Key != ConsoleKey.Backspace && key.Key != ConsoleKey.Enter)
+                {
+                    guess += key.KeyChar;
+                    Console.Write("*");
+                }
+                else
+                {
+                    if (key.Key == ConsoleKey.Backspace && guess.Length > 0)
+                    {
+                        guess = guess.Substring(0, (guess.Length - 1));
+                        Console.Write("\b \b");
+                    }
+                    else if (key.Key == ConsoleKey.Enter)
+                    {
+                        if (string.IsNullOrWhiteSpace(guess))
+                        {
+                            WriteColoredMessage("Joks atsakymas nebuvo pateiktas !", ConsoleColor.DarkRed);
+                            break;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+            } while (true);
+
+            return guess;
         }
     }
 }
