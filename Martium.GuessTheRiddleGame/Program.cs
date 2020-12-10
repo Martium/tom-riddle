@@ -6,7 +6,7 @@ namespace Martium.GuessTheRiddleGame
 {
     internal class Program
     {
-        private static Dictionary<string, string> Riddles = new Dictionary<string, string>
+        private static Dictionary<string, string> _riddles = new Dictionary<string, string>
         {
             { "Žalia žole, bet ne žole su uodega, bet ne pelė?" , "agurkas" },
             { "Be rankų, be kojų duris atidaro?", "vejas" },
@@ -38,7 +38,7 @@ namespace Martium.GuessTheRiddleGame
         {
             WriteLine("Sveiki atvykę į mįslių žaidimą!");
             WriteLine("TAISYKLĖS:", addNewLineBeforeText: true);
-            WriteLine($"* jūs turėsite įminti {Riddles.Count} mįslių");
+            WriteLine($"* jūs turėsite įminti {_riddles.Count} mįslių");
             WriteLine($"* kiekvienai mįslei įminti turėsite {GuessLimit} bandymus");
             WriteLine($"* kiekviena mįslė yra verta {GuessLimit * SingleGuessPoints} taškų");
             WriteLine($"* kiekvienas neteisingas spėjimas kainuos {SingleGuessPoints} tašką");
@@ -51,7 +51,7 @@ namespace Martium.GuessTheRiddleGame
             Dictionary<string, int> playerResult = new Dictionary<string, int> { };
             ShuffleRiddles();
 
-            foreach (KeyValuePair<string, string> riddle in Riddles)
+            foreach (KeyValuePair<string, string> riddle in _riddles)
             {
                 int guessCount = 0;
                 WriteLine("------------------------------------------------------------------------------");
@@ -60,7 +60,7 @@ namespace Martium.GuessTheRiddleGame
                 while (guessCount < GuessLimit)
                 {
                     Console.Write("Įveskite savo spėjimą: ");
-                    string guess = Console.ReadLine().ToLower();
+                    string guess = Console.ReadLine()?.ToLower();
 
                     if (guess == riddle.Value)
                     {
@@ -88,7 +88,7 @@ namespace Martium.GuessTheRiddleGame
         private static void ShuffleRiddles()
         {
             Random random = new Random();
-            Riddles = Riddles.OrderBy(x => random.Next())
+            _riddles = _riddles.OrderBy(x => random.Next())
               .ToDictionary(item => item.Key, item => item.Value);
         }
 
@@ -120,7 +120,7 @@ namespace Martium.GuessTheRiddleGame
             WriteLine("==================================================================", addNewLineBeforeText:true);
 
             int collectedPlayerPoints = playerResult.Sum(playerAnswer => playerAnswer.Value);
-            int maximumPoints = Riddles.Count * SingleGuessPoints * GuessLimit;
+            int maximumPoints = _riddles.Count * SingleGuessPoints * GuessLimit;
 
             WriteLine($"Mįslės išspręstos. Surinkti taškai: {collectedPlayerPoints} / {maximumPoints}", addNewLineBeforeText: true);
             WriteLine("Taškų paskirstymas: ");
