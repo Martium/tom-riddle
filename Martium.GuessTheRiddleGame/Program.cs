@@ -222,11 +222,6 @@ namespace Martium.GuessTheRiddleGame
                     }
                     else if (key.Key == ConsoleKey.Enter)
                     {
-                        if (string.IsNullOrWhiteSpace(guess))
-                        {
-                            WriteColoredMessage("Joks atsakymas nebuvo pateiktas !", ConsoleColor.DarkRed);
-                        }
-
                         break;
                     }
                 }
